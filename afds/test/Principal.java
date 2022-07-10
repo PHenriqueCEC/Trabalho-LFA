@@ -5,8 +5,16 @@ public class Principal {
 	
     public static void main(String[] args) {				
 	Principal t = new Principal();		
-       t.faca1("ababa");
-       //t.faca2();
+        
+        AFD a = new AFD();
+        try{
+            a.ler("./test/AFD.XML");
+            System.out.print(a.ehVazio());
+            a.ehInfinito();
+            
+        }catch(Exception E){
+            
+        }
     }
 
     /**
@@ -14,6 +22,19 @@ public class Principal {
      *  seu conteudo formatado.
      * @param w
      */    
+    
+    
+    public void testeVazio(){
+        AFD a = new AFD();
+        try{
+            a.ler("./test/AFD.XML");
+            System.out.print(a.ehVazio());
+            a.ehInfinito();
+            
+        }catch(Exception E){
+            
+        }
+    }
     
     @SuppressWarnings("empty-statement")
     public void faca1(String w) {

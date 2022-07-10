@@ -8,7 +8,9 @@ package afds;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -364,5 +366,47 @@ public class AFD {
 
         saida.close();
         writer.close();
+    }
+        
+
+    public boolean temAutoLoop(){
+        for (Iterator iter = this.funcaoPrograma.iterator(); iter.hasNext();) {
+            TransicaoD transicaoD = (TransicaoD) iter.next();
+            
+            if(transicaoD.getDestino().getNome().equals(transicaoD.getDestino().getNome())){
+                return true;
+            }
+	}
+        
+        return false;
+    }
+    
+
+    
+    public boolean ehVazio(){
+       return this.getEstadosFinais().vazio();
+    }
+    
+    public boolean ehInfinito(){
+        
+        //@Todo verificar se tem algum estado que tem transição de ida e volta
+        
+        boolean temIda = false;
+        boolean temVolta = false;
+        Map<String, Integer> map = new HashMap<>();
+        
+        
+        for (Iterator iter = this.funcaoPrograma.iterator(); iter.hasNext();) {
+            TransicaoD transicaoD = (TransicaoD) iter.next();
+            map.put("origem" + transicaoD.getOrigem().getNome(), 1);
+            map.put("destino" + transicaoD.getDestino().getNome(), 1);  
+	}
+        
+        System.out.println(map);
+        
+       
+        
+        return this.temAutoLoop();
+        
     }
 }
