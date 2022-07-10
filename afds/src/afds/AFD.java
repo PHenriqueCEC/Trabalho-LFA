@@ -390,23 +390,26 @@ public class AFD {
     public boolean ehInfinito(){
         
         //@Todo verificar se tem algum estado que tem transição de ida e volta
+        Map<String, Boolean> transicaoOrigem = new HashMap<>();
         
-        boolean temIda = false;
-        boolean temVolta = false;
-        Map<String, Integer> map = new HashMap<>();
-        
+        Map<String, Boolean> transicaoDestino = new HashMap<>();
         
         for (Iterator iter = this.funcaoPrograma.iterator(); iter.hasNext();) {
             TransicaoD transicaoD = (TransicaoD) iter.next();
-            map.put("origem" + transicaoD.getOrigem().getNome(), 1);
-            map.put("destino" + transicaoD.getDestino().getNome(), 1);  
+            transicaoOrigem.put(transicaoD.getOrigem().getNome(), true);
+            transicaoDestino.put(transicaoD.getDestino().getNome(), true);
 	}
         
-        System.out.println(map);
+       	for (Map.Entry<String, Boolean> entry : transicaoOrigem.entrySet()) {
+            
+            if(transicaoDestino.get(entry.getKey()) != null && transicaoDestino.get(entry.getKey()))
+               return true;
+	}
         
        
         
-        return this.temAutoLoop();
-        
+        return false;
+        //return this.temAutoLoop();
+     
     }
 }
