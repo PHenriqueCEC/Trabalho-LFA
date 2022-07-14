@@ -435,12 +435,13 @@ public class AFD {
 
     public boolean ehVazio() {
 
-        for (int i = 0; i < this.estados.size(); ++i) {
+        for (int i = 1; i < this.estados.size(); ++i) {
             Set<String> palavrasGeradas = this.geraTodasPalavrasTamanhoN(i);
 
             if (palavrasGeradas.size() > 0) {
                 return false;
             }
+
         }
 
         return true;
@@ -450,16 +451,17 @@ public class AFD {
         for (int i = this.estados.size(); i < 2 * this.estados.size(); i++) {
             Set<String> palavrasGeradas = this.geraTodasPalavrasTamanhoN(i);
 
-            if (palavrasGeradas.size() > 0) 
+            if (palavrasGeradas.size() > 0) {
                 return true;
-            
+            }
+
         }
 
         return false;
     }
-    
-    public boolean ehFinito(){
+
+    public boolean ehFinito() {
         return !this.ehVazio() && !this.ehInfinito();
     }
-    
+
 }
