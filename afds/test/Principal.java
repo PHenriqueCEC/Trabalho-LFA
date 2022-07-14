@@ -8,8 +8,13 @@ public class Principal {
         
         AFD a = new AFD();
         try{
+            /*
             a.ler("./test/AFD_FINITO.XML");
-            System.out.print("eh infinito: " + a.ehInfinito());
+            System.out.print("eh vazio: " + a.ehVazio());
+            */
+            a.ler("./test/AFD_VAZIO.XML");
+            System.out.println("eh vazio: " + a.ehVazio());
+                    
             
             
         }catch(Exception E){
@@ -29,7 +34,6 @@ public class Principal {
         try{
             a.ler("./test/AFD.XML");
             System.out.print(a.ehVazio());
-            a.ehInfinito();
             
         }catch(Exception E){
             

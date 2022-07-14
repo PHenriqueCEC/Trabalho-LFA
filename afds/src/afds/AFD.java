@@ -1,16 +1,22 @@
 /**
  * Classe para a criacao de um automato finito deterministico
+ *
  * @author Fabio Moreira Campos, Rafael Sachetto Oliveira, Tiago Jose Melquiades
  * @author Claudio Soares Junior, Gildo
  */
-
 package afds;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,308 +25,325 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-
-
 public class AFD {
-	private ConjuntoSimbolo simbolos;
-	private ConjuntoEstados estados;
-	private ConjuntoEstados estadosFinais;
-	private ConjuntoTransicaoD funcaoPrograma;
-	private Estado estadoInicial;
-	
-	/**
-	 * Metodo construtor de um Automato finito deterministico
-	 * 
-	 * @param simbolos
-	 *            ConjuntoSimbolo que representa o alfabeto do automato finito
-	 *            deterministico
-	 * @param estados
-	 *            ConjuntoEstados que representa o conjunto de estados do
-	 *            automato finito deterministico
-	 * @param funcaoPrograma
-	 *            ConjuntoTransicaoD que representa a funcao programa do
-	 *            automato finito deterministico
-	 * @param estadoInicial
-	 *            Estado que representa o estado inicial do automato finito
-	 *            deterministico
-	 * @param estadosFinais
-	 *            ConjuntoEstados que representa o conjunto de estados finais do
-	 *            automato finito deterministico
-	 */
-	public AFD(ConjuntoSimbolo simbolos, ConjuntoEstados estados,
-			ConjuntoTransicaoD funcaoPrograma, Estado estadoInicial,
-			ConjuntoEstados estadosFinais) {
-		this.simbolos = simbolos.clonar();
-		this.estados = estados.clonar();
-		this.funcaoPrograma = funcaoPrograma.clonar();
-		this.estadoInicial = estadoInicial.clonar();
-		this.estadosFinais = estadosFinais.clonar();
-	}
-	public AFD() {
-		simbolos = new ConjuntoSimbolo();
-		estados = new ConjuntoEstados();
-		estadosFinais = new ConjuntoEstados();
-		funcaoPrograma = new ConjuntoTransicaoD();
-	}
-	/**
-	 * Obt�m o estado inicial do aut�mato finito determin�stico
-	 * 
-	 * @return estadoInicial - Estado que representa o estado inicial do
-	 *         aut�mato finito determin�stico
-	 */
-	public Estado getEstadoInicial() {
-		return this.estadoInicial.clonar();
-	}
-	/**
-	 * Ajusta o estado inicial do aut�mato finito determin�stico para o valor
-	 * passado como par�metro
-	 * 
-	 * @param estadoInicial
-	 *            um Estado a ser definido como estado inicial do aut�mato
-	 *            finito determin�stico
-	 */
-	public void setEstadoInicial(Estado estadoInicial) {
-		this.estadoInicial = estadoInicial.clonar();
-	}
-	/**
-	 * Obt�m o conjunto de estados do aut�mato finito determin�stico
-	 * 
-	 * @return estados - ConjuntoEstados que representa o conjunto de estados do
-	 *         aut�mato finito determin�stico
-	 */
-	public ConjuntoEstados getEstados() {
-		return this.estados.clonar();
-	}
-	/**
-	 * Ajusta o conjunto de estados do aut�mato finito determin�stico para o
-	 * valor passado como par�metro
-	 * 
-	 * @param estados
-	 *            um ConjuntoEstados a ser definido como o conjunto de estados
-	 *            do aut�mato finito determin�stico
-	 */
-	public void setEstados(ConjuntoEstados estados) {
-		this.estados = estados.clonar();
-	}
-	/**
-	 * Obt�m o conjunto de estados finais do aut�mato finito determin�stico
-	 * 
-	 * @return estadosFinais - ConjuntoEstados que representa o conjunto de
-	 *         estados finais do aut�mato finito determin�stico
-	 */
-	public ConjuntoEstados getEstadosFinais() {
-		return this.estadosFinais.clonar();
-	}
-	/**
-	 * Ajusta o conjunto de estados finais do aut�mato finito determin�stico
-	 * para o valor passado como par�metro
-	 * 
-	 * @param estadosFinais
-	 *            um ConjuntoEstados a ser definido como o conjunto de estados
-	 *            finais do aut�mato finito determin�stico
-	 */
-	public void setEstadosFinais(ConjuntoEstados estadosFinais) {
-		this.estadosFinais = estadosFinais.clonar();
-	}
-	/**
-	 * Obt�m a fun��o programa do aut�mato finito determin�stico
-	 * 
-	 * @return funcaoPrograma - ConjuntoTransicaoD que representa a fun��o
-	 *         programa do aut�mato finito determin�stico
-	 */
-	public ConjuntoTransicaoD getFuncaoPrograma() {
-		return this.funcaoPrograma.clonar();
-	}
-	/**
-	 * Ajusta a fun��o programa do aut�mato finito determin�stico para o valor
-	 * passado como par�metro
-	 * 
-	 * @param funcaoPrograma
-	 *            um ConjuntoTransicaoD a ser definido como a fun��o programa do
-	 *            aut�mato finito determin�stico
-	 */
-	public void setFuncaoPrograma(ConjuntoTransicaoD funcaoPrograma) {
-		this.funcaoPrograma = funcaoPrograma.clonar();
-	}
-	/**
-	 * Obt�m o alfabeto do aut�mato finito determin�stico
-	 * 
-	 * @return simbolos - ConjuntoSimbolo que representa o alfabeto do aut�mato
-	 *         finito determin�stico
-	 */
-	public ConjuntoSimbolo getSimbolos() {
-		return this.simbolos.clonar();
-	}
-	/**
-	 * Ajusta o alfabeto do aut�mato finito determin�stico para o valor passado
-	 * como par�metro
-	 * 
-	 * @param simbolos
-	 *            um ConjuntoSimbolo a ser definido como o alfabeto do aut�mato
-	 *            finito determin�stico
-	 */
-	public void setSimbolos(ConjuntoSimbolo simbolos) {
-		this.simbolos = simbolos.clonar();
-	}
-	/**
-	 * Cria e retorna uma c�pia do objeto AFD
-	 * 
-	 * @return um clone desse AFD
-	 */
-	public AFD clonar() {
-		return new AFD(simbolos, estados, funcaoPrograma, estadoInicial,
-				estadosFinais);
-	}
-	public String toString() {
-		String s = new String();
-		s += "(";
-		s += simbolos.toString();
-		s += ",";
-		s += estados.toString();
-		s += ",";
-		s += this.getFuncaoPrograma().toString();
-		s += ",";
-		s += estadoInicial.toString();
-		s += ",";
-		s += estadosFinais.toString();
-		s += ")";
-		return s;
-	}
-	/**
-	 * Le as informaoces de um AFN em um arquivo XML passado como parametro
-	 * 
-	 * @param pathArquivo
-	 *            define o arquivo de onde será lido as informacoes do automato
-	 * @return retorna o automato lido
-	 */
-	public void ler(String pathArquivo) throws Exception {
-		String xmlPathname = pathArquivo;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document doc = db.parse(xmlPathname);
 
-		Element elem = doc.getDocumentElement();
-		NodeList nl0 = elem.getElementsByTagName("simbolos");
-		NodeList nl1 = elem.getElementsByTagName("estados");
-		NodeList nl2 = elem.getElementsByTagName("estadosFinais");
-		NodeList nl3 = elem.getElementsByTagName("funcaoPrograma");
-		NodeList nl4 = elem.getElementsByTagName("estadoInicial");
+    private ConjuntoSimbolo simbolos;
+    private ConjuntoEstados estados;
+    private ConjuntoEstados estadosFinais;
+    private ConjuntoTransicaoD funcaoPrograma;
+    private Estado estadoInicial;
 
-		getChildTagValue(0, (Element) nl0.item(0), "elemento");
-		getChildTagValue(1, (Element) nl1.item(0), "elemento");
-		getChildTagValue(2, (Element) nl2.item(0), "elemento");
-		Element eI = (Element) nl4.item(0);
-		estadoInicial = new Estado(eI.getAttribute("valor"));
+    /**
+     * Metodo construtor de um Automato finito deterministico
+     *
+     * @param simbolos ConjuntoSimbolo que representa o alfabeto do automato
+     * finito deterministico
+     * @param estados ConjuntoEstados que representa o conjunto de estados do
+     * automato finito deterministico
+     * @param funcaoPrograma ConjuntoTransicaoD que representa a funcao programa
+     * do automato finito deterministico
+     * @param estadoInicial Estado que representa o estado inicial do automato
+     * finito deterministico
+     * @param estadosFinais ConjuntoEstados que representa o conjunto de estados
+     * finais do automato finito deterministico
+     */
+    public AFD(ConjuntoSimbolo simbolos, ConjuntoEstados estados,
+            ConjuntoTransicaoD funcaoPrograma, Estado estadoInicial,
+            ConjuntoEstados estadosFinais) {
+        this.simbolos = simbolos.clonar();
+        this.estados = estados.clonar();
+        this.funcaoPrograma = funcaoPrograma.clonar();
+        this.estadoInicial = estadoInicial.clonar();
+        this.estadosFinais = estadosFinais.clonar();
+    }
 
-		getChildTagValue((Element) nl3.item(0), "elemento");
+    public AFD() {
+        simbolos = new ConjuntoSimbolo();
+        estados = new ConjuntoEstados();
+        estadosFinais = new ConjuntoEstados();
+        funcaoPrograma = new ConjuntoTransicaoD();
+    }
 
-	}
-	private void getChildTagValue(int tipo, Element elem, String tagName)
-			throws Exception {
-		NodeList children = elem.getElementsByTagName(tagName);
+    /**
+     * Obt�m o estado inicial do aut�mato finito determin�stico
+     *
+     * @return estadoInicial - Estado que representa o estado inicial do
+     * aut�mato finito determin�stico
+     */
+    public Estado getEstadoInicial() {
+        return this.estadoInicial.clonar();
+    }
 
-		if (children != null) {
-			for (int i = 0; i < children.getLength(); i++) {
-				Element child = (Element) children.item(i);
+    /**
+     * Ajusta o estado inicial do aut�mato finito determin�stico para o valor
+     * passado como par�metro
+     *
+     * @param estadoInicial um Estado a ser definido como estado inicial do
+     * aut�mato finito determin�stico
+     */
+    public void setEstadoInicial(Estado estadoInicial) {
+        this.estadoInicial = estadoInicial.clonar();
+    }
 
-				if (child != null) {
-					switch (tipo) {
-					case 0:
-						char[] c = child.getAttribute("valor").toCharArray();
-						simbolos.inclui(new Simbolo(c[0]));
-						break;
-					case 1:
-						estados.inclui(new Estado(child.getAttribute("valor")));
-						break;
-					case 2:
-						estadosFinais.inclui(new Estado(child
-								.getAttribute("valor")));
-						break;
-					}
-				}
-			}
-		}
-	}
-	private void getChildTagValue(Element elem, String tagName)
-			throws Exception {
-		TransicaoD transD = new TransicaoD();
-		NodeList children = elem.getElementsByTagName(tagName);
-		if (children != null) {
-			for (int i = 0; i < children.getLength(); i++) {
-				Element child = (Element) children.item(i);
-				if (child != null) {
-					transD.setOrigem(new Estado(child.getAttribute("origem")));
-					transD.setDestino(new Estado(child.getAttribute("destino")));
-					char[] c = child.getAttribute("simbolo").toCharArray();
-					transD.setSimbolo(new Simbolo(c[0]));
-                                        //int a =  Integer.parseInt(child.getAttribute("acao"));                                       
-					funcaoPrograma.inclui(transD);
-				}
-			}
-		}
-	}
-	// Limpa a estrutura de dados do AFD
-	private void limpa() {
-		// limpa Alfabeto
-		simbolos.limpar();
-		// limpa conjunto de estados
-		estados.limpar();
-		// limpa Funcao Programa
-		funcaoPrograma.limpar();
-		// Limpa estados finais
-		estadosFinais.limpar();
-	}
-	 
-	/**
-	*Fun��o Programa
-	* @return estado alcan�avel depois de processar o Simbolo s a partir de estados e 
-	* @param Estado estado onde iniciar� o processamento
-	* @param Simbolo simbolo a ser processado
-	*/
-	public Estado p (Estado e, Simbolo s){
-		ConjuntoTransicaoD fp;
-		TransicaoD t;
-		fp = getFuncaoPrograma();
-		for (Iterator iter = fp.getElementos().iterator(); iter.hasNext();) {
-			t = (TransicaoD) iter.next();
-			if (t.getOrigem().igual(e) && t.getSimbolo().igual(s))
-				return t.getDestino();
-		}
-		
-		return null;
-	}
-	/**
-	*Fun��o Programa Estendida	
-	* @return estado alcan�avel depois de processar a palavra p a partir de um estados e 
-	* @param Estado Estado onde iniciar� o processamento
-	* @param String palavra a ser processada
-	*/
-	public Estado pe (Estado e, String p){
-		Estado eAtual = e;
-		Simbolo s;
-		int i = 0;
-		while (i < p.length()) {
-			s = new Simbolo(p.charAt(i));
-			eAtual = p(eAtual,s);
-			if (eAtual == null) return null;
-			i++;
-		}
-		return eAtual;
-	}
-	/**
-	*Retorna se uma palavra � aceita ou n�o por determinado AFD
-	* @return true caso a palavra � aceita; false caso contr�rio 
-	* @param  String palavra a ser avaliada
-	*/
-	public boolean Aceita(String p) {
-		return getEstadosFinais().pertence(pe(getEstadoInicial(),p));
-	}
-	/*
+    /**
+     * Obt�m o conjunto de estados do aut�mato finito determin�stico
+     *
+     * @return estados - ConjuntoEstados que representa o conjunto de estados do
+     * aut�mato finito determin�stico
+     */
+    public ConjuntoEstados getEstados() {
+        return this.estados.clonar();
+    }
+
+    /**
+     * Ajusta o conjunto de estados do aut�mato finito determin�stico para o
+     * valor passado como par�metro
+     *
+     * @param estados um ConjuntoEstados a ser definido como o conjunto de
+     * estados do aut�mato finito determin�stico
+     */
+    public void setEstados(ConjuntoEstados estados) {
+        this.estados = estados.clonar();
+    }
+
+    /**
+     * Obt�m o conjunto de estados finais do aut�mato finito determin�stico
+     *
+     * @return estadosFinais - ConjuntoEstados que representa o conjunto de
+     * estados finais do aut�mato finito determin�stico
+     */
+    public ConjuntoEstados getEstadosFinais() {
+        return this.estadosFinais.clonar();
+    }
+
+    /**
+     * Ajusta o conjunto de estados finais do aut�mato finito determin�stico
+     * para o valor passado como par�metro
+     *
+     * @param estadosFinais um ConjuntoEstados a ser definido como o conjunto de
+     * estados finais do aut�mato finito determin�stico
+     */
+    public void setEstadosFinais(ConjuntoEstados estadosFinais) {
+        this.estadosFinais = estadosFinais.clonar();
+    }
+
+    /**
+     * Obt�m a fun��o programa do aut�mato finito determin�stico
+     *
+     * @return funcaoPrograma - ConjuntoTransicaoD que representa a fun��o
+     * programa do aut�mato finito determin�stico
+     */
+    public ConjuntoTransicaoD getFuncaoPrograma() {
+        return this.funcaoPrograma.clonar();
+    }
+
+    /**
+     * Ajusta a fun��o programa do aut�mato finito determin�stico para o valor
+     * passado como par�metro
+     *
+     * @param funcaoPrograma um ConjuntoTransicaoD a ser definido como a fun��o
+     * programa do aut�mato finito determin�stico
+     */
+    public void setFuncaoPrograma(ConjuntoTransicaoD funcaoPrograma) {
+        this.funcaoPrograma = funcaoPrograma.clonar();
+    }
+
+    /**
+     * Obt�m o alfabeto do aut�mato finito determin�stico
+     *
+     * @return simbolos - ConjuntoSimbolo que representa o alfabeto do aut�mato
+     * finito determin�stico
+     */
+    public ConjuntoSimbolo getSimbolos() {
+        return this.simbolos.clonar();
+    }
+
+    /**
+     * Ajusta o alfabeto do aut�mato finito determin�stico para o valor passado
+     * como par�metro
+     *
+     * @param simbolos um ConjuntoSimbolo a ser definido como o alfabeto do
+     * aut�mato finito determin�stico
+     */
+    public void setSimbolos(ConjuntoSimbolo simbolos) {
+        this.simbolos = simbolos.clonar();
+    }
+
+    /**
+     * Cria e retorna uma c�pia do objeto AFD
+     *
+     * @return um clone desse AFD
+     */
+    public AFD clonar() {
+        return new AFD(simbolos, estados, funcaoPrograma, estadoInicial,
+                estadosFinais);
+    }
+
+    public String toString() {
+        String s = new String();
+        s += "(";
+        s += simbolos.toString();
+        s += ",";
+        s += estados.toString();
+        s += ",";
+        s += this.getFuncaoPrograma().toString();
+        s += ",";
+        s += estadoInicial.toString();
+        s += ",";
+        s += estadosFinais.toString();
+        s += ")";
+        return s;
+    }
+
+    /**
+     * Le as informaoces de um AFN em um arquivo XML passado como parametro
+     *
+     * @param pathArquivo define o arquivo de onde será lido as informacoes do
+     * automato
+     * @return retorna o automato lido
+     */
+    public void ler(String pathArquivo) throws Exception {
+        String xmlPathname = pathArquivo;
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(xmlPathname);
+
+        Element elem = doc.getDocumentElement();
+        NodeList nl0 = elem.getElementsByTagName("simbolos");
+        NodeList nl1 = elem.getElementsByTagName("estados");
+        NodeList nl2 = elem.getElementsByTagName("estadosFinais");
+        NodeList nl3 = elem.getElementsByTagName("funcaoPrograma");
+        NodeList nl4 = elem.getElementsByTagName("estadoInicial");
+
+        getChildTagValue(0, (Element) nl0.item(0), "elemento");
+        getChildTagValue(1, (Element) nl1.item(0), "elemento");
+        getChildTagValue(2, (Element) nl2.item(0), "elemento");
+        Element eI = (Element) nl4.item(0);
+        estadoInicial = new Estado(eI.getAttribute("valor"));
+
+        getChildTagValue((Element) nl3.item(0), "elemento");
+
+    }
+
+    private void getChildTagValue(int tipo, Element elem, String tagName)
+            throws Exception {
+        NodeList children = elem.getElementsByTagName(tagName);
+
+        if (children != null) {
+            for (int i = 0; i < children.getLength(); i++) {
+                Element child = (Element) children.item(i);
+
+                if (child != null) {
+                    switch (tipo) {
+                        case 0:
+                            char[] c = child.getAttribute("valor").toCharArray();
+                            simbolos.inclui(new Simbolo(c[0]));
+                            break;
+                        case 1:
+                            estados.inclui(new Estado(child.getAttribute("valor")));
+                            break;
+                        case 2:
+                            estadosFinais.inclui(new Estado(child
+                                    .getAttribute("valor")));
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void getChildTagValue(Element elem, String tagName)
+            throws Exception {
+        TransicaoD transD = new TransicaoD();
+        NodeList children = elem.getElementsByTagName(tagName);
+        if (children != null) {
+            for (int i = 0; i < children.getLength(); i++) {
+                Element child = (Element) children.item(i);
+                if (child != null) {
+                    transD.setOrigem(new Estado(child.getAttribute("origem")));
+                    transD.setDestino(new Estado(child.getAttribute("destino")));
+                    char[] c = child.getAttribute("simbolo").toCharArray();
+                    transD.setSimbolo(new Simbolo(c[0]));
+                    //int a =  Integer.parseInt(child.getAttribute("acao"));                                       
+                    funcaoPrograma.inclui(transD);
+                }
+            }
+        }
+    }
+    // Limpa a estrutura de dados do AFD
+
+    private void limpa() {
+        // limpa Alfabeto
+        simbolos.limpar();
+        // limpa conjunto de estados
+        estados.limpar();
+        // limpa Funcao Programa
+        funcaoPrograma.limpar();
+        // Limpa estados finais
+        estadosFinais.limpar();
+    }
+
+    /**
+     * Fun��o Programa
+     *
+     * @return estado alcan�avel depois de processar o Simbolo s a partir de
+     * estados e
+     * @param Estado estado onde iniciar� o processamento
+     * @param Simbolo simbolo a ser processado
+     */
+    public Estado p(Estado e, Simbolo s) {
+        ConjuntoTransicaoD fp;
+        TransicaoD t;
+        fp = getFuncaoPrograma();
+        for (Iterator iter = fp.getElementos().iterator(); iter.hasNext();) {
+            t = (TransicaoD) iter.next();
+            if (t.getOrigem().igual(e) && t.getSimbolo().igual(s)) {
+                return t.getDestino();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Fun��o Programa Estendida
+     *
+     * @return estado alcan�avel depois de processar a palavra p a partir de um
+     * estados e
+     * @param Estado Estado onde iniciar� o processamento
+     * @param String palavra a ser processada
+     */
+    public Estado pe(Estado e, String p) {
+        Estado eAtual = e;
+        Simbolo s;
+        int i = 0;
+        while (i < p.length()) {
+            s = new Simbolo(p.charAt(i));
+            eAtual = p(eAtual, s);
+            if (eAtual == null) {
+                return null;
+            }
+            i++;
+        }
+        return eAtual;
+    }
+
+    /**
+     * Retorna se uma palavra � aceita ou n�o por determinado AFD
+     *
+     * @return true caso a palavra � aceita; false caso contr�rio
+     * @param String palavra a ser avaliada
+     */
+    public boolean Aceita(String p) {
+        return getEstadosFinais().pertence(pe(getEstadoInicial(), p));
+    }
+
+    /*
 	 * Cria arquivo XML do AFD com nome de filename.xml
 	 * 
 	 * @param filename Nome do arquivo XML que será criado sem a extensão.
-	 */
-	public void toXML(String filename) throws IOException {
+     */
+    public void toXML(String filename) throws IOException {
         FileWriter writer = new FileWriter(filename + ".xml");
         PrintWriter saida = new PrintWriter(writer);
 
@@ -358,7 +381,7 @@ public class AFD {
         }
         saida.println("\t</funcaoPrograma>");
         saida.println();
-        
+
         saida.println("\t<estadoInicial valor= \"" + this.getEstadoInicial().toString() + "\"/>");
         saida.println();
 
@@ -367,49 +390,76 @@ public class AFD {
         saida.close();
         writer.close();
     }
-        
 
-    public boolean temAutoLoop(){
-        for (Iterator iter = this.funcaoPrograma.iterator(); iter.hasNext();) {
-            TransicaoD transicaoD = (TransicaoD) iter.next();
-            
-            if(transicaoD.getDestino().getNome().equals(transicaoD.getDestino().getNome())){
-                return true;
+    public Set<String> geraTodasPalavrasTamanhoN(int n) {
+        Map<String, List<TransicaoD>> transicoesPartemEstadoQ = new HashMap();
+        String palavra[] = new String[n];
+        Set conjuntoEstado = estados.getElementos();
+        Set conjuntoTransicao = funcaoPrograma.getElementos();
+        Iterator<Estado> conjuntoEstadoIterator = conjuntoEstado.iterator();
+
+        while (conjuntoEstadoIterator.hasNext()) {
+            Estado estado = conjuntoEstadoIterator.next();
+            Iterator<TransicaoD> conjuntoTransicaoIterator = conjuntoTransicao.iterator();
+            List<TransicaoD> transicoesEstadoOrigemQ = new ArrayList<TransicaoD>();
+            while (conjuntoTransicaoIterator.hasNext()) {
+                TransicaoD transicao = conjuntoTransicaoIterator.next();
+                if (transicao.getOrigem().getNome().equals(estado.getNome())) {
+                    transicoesEstadoOrigemQ.add(transicao);
+                }
             }
-	}
-        
-        return false;
-    }
-    
+            transicoesPartemEstadoQ.put(estado.getNome(), transicoesEstadoOrigemQ);
+        }
 
-    
-    public boolean ehVazio(){
-       return this.getEstadosFinais().vazio();
+        Set<String> palavras = new HashSet<>();
+        auxGeraTodasPalavrasTamanhoN(estadoInicial, 0, n, transicoesPartemEstadoQ, palavra, palavras);
+        return palavras;
     }
-    
-    public boolean ehInfinito(){
-        
-        //@Todo verificar se tem algum estado que tem transição de ida e volta
-        Map<String, Boolean> transicaoOrigem = new HashMap<>();
-        
-        Map<String, Boolean> transicaoDestino = new HashMap<>();
-        
-        for (Iterator iter = this.funcaoPrograma.iterator(); iter.hasNext();) {
-            TransicaoD transicaoD = (TransicaoD) iter.next();
-            transicaoOrigem.put(transicaoD.getOrigem().getNome(), true);
-            transicaoDestino.put(transicaoD.getDestino().getNome(), true);
-	}
-        
-       	for (Map.Entry<String, Boolean> entry : transicaoOrigem.entrySet()) {
+
+    private void auxGeraTodasPalavrasTamanhoN(Estado estado, int i, int n, Map<String, List<TransicaoD>> transicoesPartemEstadoQ, String palavra[], Set<String> palavras) {
+        if (i == n) {
+            if (estadosFinais.pertence(estado)) {
+                palavras.add(Arrays.toString(palavra).replace(",", "").replace("[", "").replace("]", "").replace(" ", ""));
+
+            }
+            return;
+        } else {
+            List<TransicaoD> transicoes = transicoesPartemEstadoQ.get(estado.getNome());
+            for (int h = 0; h < transicoes.size(); h++) {
+                palavra[i] = transicoes.get(h).getSimbolo().toString();
+                auxGeraTodasPalavrasTamanhoN(transicoes.get(h).getDestino(), i + 1, n, transicoesPartemEstadoQ, palavra, palavras);
+            }
+
+        }
+    }
+
+    public boolean ehVazio() {
+
+        for (int i = 0; i < this.estados.size(); ++i) {
+            Set<String> palavrasGeradas = this.geraTodasPalavrasTamanhoN(i);
+
+            if (palavrasGeradas.size() > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean ehInfinito() {
+        for (int i = this.estados.size(); i < 2 * this.estados.size(); i++) {
+            Set<String> palavrasGeradas = this.geraTodasPalavrasTamanhoN(i);
+
+            if (palavrasGeradas.size() > 0) 
+                return true;
             
-            if(transicaoDestino.get(entry.getKey()) != null && transicaoDestino.get(entry.getKey()))
-               return true;
-	}
-        
-       
-        
+        }
+
         return false;
-        //return this.temAutoLoop();
-     
     }
+    
+    public boolean ehFinito(){
+        return !this.ehVazio() && !this.ehInfinito();
+    }
+    
 }
