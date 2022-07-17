@@ -15,36 +15,39 @@ public class Principal {
      * @param w
      */
     public static void testeVazio() {
-        AFD a = new AFD();
+        AFD certo = new AFD();
+        AFD errado = new AFD();
         try {
-            a.ler("./test/AFD_VAZIO.XML");
-            System.out.println("Eh vazio: " + a.ehVazio());
-            a.ler("./test/AFD_VAZIO_2.XML");
-            System.out.println("Eh vazio: " + a.ehVazio());
+            certo.ler("./test/AFD_VAZIO.XML");
+            System.out.println("Eh vazio: " + certo.ehVazio());
+            errado.ler("./test/AFD_VAZIO_2.XML");
+            System.out.println("Eh vazio: " + errado.ehVazio());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
         }
     }
 
     public static void testeFinito() {
-        AFD a = new AFD();
+        AFD certo = new AFD();
+        AFD errado = new AFD();
         try {
-            a.ler("./test/AFD_FINITO.XML");
-            System.out.println("Eh finito : " + a.ehFinito());
-            a.ler("./test/AFD_FINITO_2.XML");
-            System.out.println("Eh finito : " + a.ehFinito());
+            certo.ler("./test/AFD_FINITO.XML");
+            System.out.println("Eh finito : " + certo.ehFinito());
+            errado.ler("./test/AFD_FINITO_2.XML");
+            System.out.println("Eh finito : " + errado.ehFinito());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
         }
     }
 
     public static void testeInfinito() {
-        AFD a = new AFD();
+        AFD certo = new AFD();
+        AFD errado = new AFD();
         try {
-            a.ler("./test/AFD_INFINITO.XML");
-            System.out.println("Eh infinito : " + a.ehInfinito());
-            a.ler("./test/AFD_INFINITO_2.XML");
-            System.out.println("Eh infinito : " + a.ehInfinito());
+            certo.ler("./test/AFD_INFINITO.XML");
+            System.out.println("Eh infinito : " + certo.ehInfinito());
+            errado.ler("./test/AFD_INFINITO_2.XML");
+            System.out.println("Eh infinito : " + errado.ehInfinito());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
         }
