@@ -452,6 +452,7 @@ public class AFD {
             Set<String> palavrasGeradas = this.geraTodasPalavrasTamanhoN(i);
 
             if (palavrasGeradas.size() > 0) {
+                System.out.println("Tamanho da palavra: " + palavrasGeradas.size());
                 return true;
             }
 

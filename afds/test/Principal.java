@@ -19,6 +19,8 @@ public class Principal {
         try {
             a.ler("./test/AFD_VAZIO.XML");
             System.out.println("Eh vazio: " + a.ehVazio());
+            a.ler("./test/AFD_VAZIO_2.XML");
+            System.out.println("Eh vazio: " + a.ehVazio());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
         }
@@ -29,6 +31,8 @@ public class Principal {
         try {
             a.ler("./test/AFD_FINITO.XML");
             System.out.println("Eh finito : " + a.ehFinito());
+            a.ler("./test/AFD_FINITO_2.XML");
+            System.out.println("Eh finito : " + a.ehFinito());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
         }
@@ -38,6 +42,8 @@ public class Principal {
         AFD a = new AFD();
         try {
             a.ler("./test/AFD_INFINITO.XML");
+            System.out.println("Eh infinito : " + a.ehInfinito());
+            a.ler("./test/AFD_INFINITO_2.XML");
             System.out.println("Eh infinito : " + a.ehInfinito());
         } catch (Exception E) {
             System.out.println("Erro ao ler XML");
