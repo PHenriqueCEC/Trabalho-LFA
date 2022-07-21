@@ -1,12 +1,39 @@
 
 import afds.*;
+import java.util.Scanner;
 
 public class Principal {
 
     public static void main(String[] args) {
-        testeVazio();
-        testeFinito();
-        testeInfinito();
+       
+        int opcao = 0;
+        Scanner ler = new Scanner(System.in);
+       
+        while(opcao != 4)
+        {
+            System.out.println("---ESCOLHA UMA OPÇÃO----");
+            System.out.println("(1) - TESTE VAZIO");
+            System.out.println("(2) - TESTE FINITO");
+            System.out.println("(3) - TESTE INFINITO");
+            System.out.println("(4) - PARA SAIR");
+            opcao = ler.nextInt();
+            
+            if(opcao == 1)
+            {
+               testeVazio();
+            }
+            
+            if(opcao == 2)
+            {
+               testeFinito();
+            }
+            
+            if(opcao == 3)
+            {
+               testeInfinito();
+            }
+        }
+        
     }
 
     /**
