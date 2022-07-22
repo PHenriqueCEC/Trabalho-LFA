@@ -461,7 +461,7 @@ public class AFD {
     }
 
     public boolean ehFinito() {
-        return !this.ehVazio() && !this.ehInfinito();
+        return !this.ehInfinito();
     }
 
 }
