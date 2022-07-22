@@ -64,5 +64,6 @@ public class Principal {
         System.out.println("(3) - TESTE INFINITO");
         System.out.println("(4) - Para ler outro AFD");
         System.out.println("(5) - PARA SAIR");
+        System.out.println("-----------------------");
     }
 }

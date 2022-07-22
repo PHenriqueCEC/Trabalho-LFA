@@ -203,6 +203,7 @@ public class AFD {
      * @return retorna o automato lido
      */
     public void ler(String pathArquivo) throws Exception {
+        this.limpa();
         String xmlPathname = pathArquivo;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
